@@ -22,7 +22,7 @@ namespace AutoDemoRefactor.BaseHooks
         [SetUp]
         public void Start()
         {
-            ChooseBrowser(BType.Edge);
+            ChooseBrowser(BType.Chrome);
             //ChromeOptions options = new ChromeOptions();
             //options.AddArguments("Start-maximized", "Incognito");
             //browser = new ChromeDriver(options);
@@ -35,6 +35,7 @@ namespace AutoDemoRefactor.BaseHooks
             {
                 ChromeOptions options = new ChromeOptions();
                 options.AddArguments("start-maximized", "incognito");
+                options.AddExcludedArgument("enable-automation");
                 browser = new ChromeDriver(options);
                 browser.Navigate().GoToUrl(Credentials.AutomationUrl);
                 browser.Manage().Cookies.DeleteAllCookies();
@@ -51,6 +52,9 @@ namespace AutoDemoRefactor.BaseHooks
             }
             else if (browserType == BType.Firefox)
             {
+                FirefoxOptions options = new FirefoxOptions();
+                options.AddArguments("--width=1920", "--height=1080");
+                options.AddArguments("disable-infobars");
                 browser = new FirefoxDriver();
                 browser.Manage().Window.Maximize();
                 browser.Navigate().GoToUrl(Credentials.AutomationUrl);
@@ -67,12 +71,12 @@ namespace AutoDemoRefactor.BaseHooks
         [TearDown]
         public void End()
         {
-                if (browser != null)
-                {
-                    browser?.Quit();
-                    browser = null;
-                }
+           if (browser != null)
+           {
+            browser?.Quit();
+            browser = null;
+           }
         }
-}   }
-
+    }
+}
         
